@@ -122,3 +122,21 @@ footer {
     border-top: 1px solid #1f1f1f;
     color: #777;
 }
+/* Terminal Typing Effect */
+.terminal-line {
+    font-family: "Courier New", monospace;
+    color: #00ff9c;
+    font-size: 32px;
+}
+
+.cursor {
+    animation: blink 1s infinite;
+    color: #00ff9c;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
