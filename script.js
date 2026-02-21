@@ -1,94 +1,106 @@
-        // Typing Effect
-document.addEventListener("DOMContentLoaded", function () {
-    const text = "Web Developer & Cyber Security Enthusiast";
-    let index = 0;
-    const speed = 80;
-    const typingElement = document.getElementById("typing");
+// script.js
 
-    function typeEffect() {
-        if (index < text.length) {
-            typingElement.textContent += text.charAt(index);
-            index++;
-            setTimeout(typeEffect, speed);
-        }
+// Smooth Scroll Navigation
+const smoothScroll = (target) => {
+    const element = document.querySelector(target);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
     }
-
-    typeEffect();
-});
-
-// Animated Background Particles
-function createParticles() {
-    const container = document.getElementById('particles');
-    const particleCount = 50;
-
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.top = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 15 + 's';
-        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-        container.appendChild(particle);
-    }
-}
-
-createParticles();
-
-// Navbar Scroll Effect
-window.addEventListener('scroll', function() {
-    const navbar = document.getElementById('navbar');
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
-
-// Mobile Menu Toggle
-const menuToggle = document.getElementById('menuToggle');
-const navMenu = document.getElementById('navMenu');
-
-menuToggle.addEventListener('click', function() {
-    menuToggle.classList.toggle('active');
-    navMenu.classList.toggle('active');
-});
-
-// Close menu when clicking on a link
-const navLinks = document.querySelectorAll('nav ul li a');
-navLinks.forEach(link => {
-    link.addEventListener('click', function() {
-        menuToggle.classList.remove('active');
-        navMenu.classList.remove('active');
-    });
-});
-
-// Scroll Animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
 };
 
-const observer = new IntersectionObserver(function(entries) {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
-    });
-}, observerOptions);
-
-const fadeElements = document.querySelectorAll('.fade-in');
-fadeElements.forEach(el => observer.observe(el));
-
-// Smooth Scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
+    anchor.addEventListener('click', function(e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+        smoothScroll(this.getAttribute('href'));
     });
 });
+
+// Lazy Loading
+const lazyLoad = () => {
+    const images = document.querySelectorAll('img[data-src]');
+    const config = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+                observer.unobserve(img);
+            }
+        });
+    }, config);
+
+    images.forEach(image => {
+        observer.observe(image);
+    });
+};
+window.addEventListener('load', lazyLoad);
+
+// Form Validation
+const validateForm = () => {
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (e) => {
+        let valid = true;
+        const inputs = form.querySelectorAll('input[required], textarea[required]');
+        inputs.forEach(input => {
+            if (!input.value.trim()) {
+                valid = false;
+                input.classList.add('error');
+            } else {
+                input.classList.remove('error');
+            }
+        });
+        if (!valid) e.preventDefault();
+    });
+};
+window.addEventListener('DOMContentLoaded', validateForm);
+
+// Scroll Animations
+const scrollAnimations = () => {
+    const elements = document.querySelectorAll('.animate-on-scroll');
+    const config = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, config);
+
+    elements.forEach(element => {
+        observer.observe(element);
+    });
+};
+window.addEventListener('load', scrollAnimations);
+
+// Mobile Menu Toggle
+const toggleMobileMenu = () => {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const menu = document.querySelector('.mobile-menu');
+    menuToggle.addEventListener('click', () => {
+        menu.classList.toggle('active');
+    });
+};
+document.addEventListener('DOMContentLoaded', toggleMobileMenu);
+
+// Dynamic Interactions
+const dynamicInteractions = () => {
+    const dynamicElements = document.querySelectorAll('.dynamic-interaction');
+    dynamicElements.forEach((element) => {
+        element.addEventListener('click', () => {
+            element.classList.toggle('active');
+        });
+    });
+};
+document.addEventListener('DOMContentLoaded', dynamicInteractions);
